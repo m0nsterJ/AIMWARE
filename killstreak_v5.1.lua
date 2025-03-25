@@ -138,13 +138,14 @@ local function EventHandler(event)
         end
     end
 
-    if event:GetName() == "round_prestart" then
+    if event:GetName() == "round_prestart" or event:GetName() == "cs_win_panel_match" then
         ResetScore()
     end
 end
 callbacks.Register("FireGameEvent", EventHandler)
 client.AllowListener("player_death")
 client.AllowListener("round_prestart")
+client.AllowListener("cs_win_panel_match")
 
 local x, y = draw.GetScreenSize()
 local function DrawStreaks()
@@ -175,13 +176,15 @@ local function DrawStreaks()
                 textAlpha = math.floor(math.sin(globals.RealTime() * 4) * 70 + 180)
             end
 
-            draw.SetFont(killstreak.streakFont)
-            draw.Color(r, g, b, textAlpha)
-            draw.TextShadow((x  - draw.GetTextSize(currStreak)) / 2, y - (y / 1.425), currStreak)
+            if not input.IsButtonDown(9) then
+                draw.SetFont(killstreak.streakFont)
+                draw.Color(r, g, b, textAlpha)
+                draw.TextShadow((x  - draw.GetTextSize(currStreak)) / 2, y - (y / 1.55), currStreak)
 
-            draw.SetFont(killstreak.amountFont)
-            draw.Color(r, g, b, streakAlpha)
-            draw.TextShadow((x  - draw.GetTextSize(streak)) / 2, y - (y / 1.5), streak)
+                draw.SetFont(killstreak.amountFont)
+                draw.Color(r, g, b, streakAlpha)
+                draw.TextShadow((x  - draw.GetTextSize(streak)) / 2, y - (y / 1.625), streak)
+            end
         end
     end
 end
